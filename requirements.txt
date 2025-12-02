@@ -1,0 +1,34 @@
+# requirements.txt
+# ============================================
+# DEPENDENCIAS PARA API DE GESTIÓN DE SERVICIOS MÉDICOS
+# ============================================
+
+# 🐍 CORE & FRAMEWORK
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+
+# 🗄️ DATABASE (MySQL)
+sqlalchemy==2.0.23
+pymysql==1.1.0  # Driver MySQL para Python
+
+# 📋 VALIDATION & SERIALIZATION
+pydantic==2.5.0
+python-dotenv==1.0.0  # Variables de entorno
+
+# 🔐 SECURITY (para futura autenticación)
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-multipart==0.0.6
+
+# 🧪 TESTING
+pytest==7.4.3
+httpx==0.25.1
+pytest-cov==4.1.0  # Para cobertura de tests
+
+# 🛠️ DEVELOPMENT TOOLS
+alembic==1.12.1  # Migraciones de BD (opcional)
+black==23.12.1  # Formateador de código (opcional)
+flake8==6.1.0  # Linter (opcional)
+
+# 📊 MONITORING & LOGGING
+structlog==23.2.0  # Logging estructurado (opcional)
