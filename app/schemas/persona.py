@@ -1,8 +1,7 @@
-from pydantic import BaseModel, EmailStr, Field, validator
+from pydantic import BaseModel, Field, validator
 from datetime import date
 from typing import Optional
 from enum import Enum
-import re
 
 class TipoDocumentoEnum(str, Enum):
     V = "V"
@@ -26,24 +25,18 @@ class PersonaBase(BaseModel):
     apellidos: str = Field(..., min_length=1, max_length=100)
     fecha_nacimiento: date
     sexo: SexoEnum
-    correo: Optional[EmailStr] = None
+    correo: Optional[str] = Field(None, max_length=100)  # Cambiado de EmailStr
     telefono: Optional[str] = Field(None, max_length=20)
     direccion: Optional[str] = None
     contacto_emergencia: Optional[str] = Field(None, max_length=100)
     alergias: Optional[str] = None
     antecedentes_resumen: Optional[str] = None
-    
-    @validator('telefono')
-    def validar_telefono(cls, v):
-        if v and not re.match(r'^\+?[0-9\s\-\(\)]{7,20}$', v):
-            raise ValueError('Formato de teléfono inválido')
-        return v
 
 class PersonaCreate(PersonaBase):
     pass
 
 class PersonaUpdate(BaseModel):
-    correo: Optional[EmailStr] = None
+    correo: Optional[str] = None  # Cambiado de EmailStr
     telefono: Optional[str] = None
     direccion: Optional[str] = None
     contacto_emergencia: Optional[str] = None
