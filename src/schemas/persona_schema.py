@@ -1,6 +1,6 @@
 from pydantic import BaseModel
-from typing import Optional
 from datetime import date
+from typing import Optional
 
 class PersonaBase(BaseModel):
     nombre: str
@@ -9,16 +9,16 @@ class PersonaBase(BaseModel):
     direccion: Optional[str] = None
     telefono: Optional[str] = None
     email: Optional[str] = None
+    activo: Optional[bool] = True
 
 class PersonaCreate(PersonaBase):
     pass
 
 class PersonaUpdate(PersonaBase):
-    activo: Optional[bool] = True
+    pass
 
-class PersonaOut(PersonaBase):
+class PersonaResponse(PersonaBase):
     id: int
-    activo: bool
 
     class Config:
         orm_mode = True
