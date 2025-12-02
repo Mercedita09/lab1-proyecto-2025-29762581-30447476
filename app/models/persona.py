@@ -1,20 +1,42 @@
-# app/models/persona.py
-from sqlalchemy import Column, Integer, String, Date, Enum
-from app.models.base import Base # Base es la clase base declarativa de SQLAlchemy
+from sqlalchemy import Column, Integer, String, Date, Enum, Text
+from sqlalchemy.sql import func
+from app.models.base import Base
+import enum
+
+class TipoDocumentoEnum(str, enum.Enum):
+    V = "V"
+    E = "E"
+    P = "P"
+    J = "J"
+
+class SexoEnum(str, enum.Enum):
+    M = "M"
+    F = "F"
+    O = "O"
+
+class EstadoPersonaEnum(str, enum.Enum):
+    ACTIVO = "activo"
+    INACTIVO = "inactivo"
 
 class PersonaAtendida(Base):
-    """Corresponde a la entidad PersonasAtendidas (Pacientes) - Sección 2.1"""
+    __tablename__ = 'personas_atendidas'
     
-    # 1. Nombre de la tabla en MySQL
-    __tablename__ = 'PersonasAtendidas'
-
-    # 2. Definición de las columnas
-    id = Column(Integer, primary_key=True, index=True)
-    tipoDocumento = Column(String(10), nullable=False)
-    numeroDocumento = Column(String(20), unique=True, nullable=False, index=True)
+    id = Column(Integer, primary_key=True, autoincrement=True, index=True)
+    tipo_documento = Column(Enum(TipoDocumentoEnum), nullable=False)
+    numero_documento = Column(String(20), unique=True, nullable=False, index=True)
     nombres = Column(String(100), nullable=False)
     apellidos = Column(String(100), nullable=False)
-    fechaNacimiento = Column(Date, nullable=False)
-    sexo = Column(Enum('M', 'F', 'Otro'), nullable=False)
-    # ... otras columnas
-    estado = Column(Enum('activo', 'inactivo'), default='activo', nullable=False)
+    fecha_nacimiento = Column(Date, nullable=False)
+    sexo = Column(Enum(SexoEnum), nullable=False)
+    correo = Column(String(100), nullable=True)
+    telefono = Column(String(20), nullable=True)
+    direccion = Column(Text, nullable=True)
+    contacto_emergencia = Column(String(100), nullable=True)
+    alergias = Column(Text, nullable=True)
+    antecedentes_resumen = Column(Text, nullable=True)
+    estado = Column(Enum(EstadoPersonaEnum), default=EstadoPersonaEnum.ACTIVO, nullable=False)
+    fecha_creacion = Column(Date, server_default=func.now())
+    fecha_actualizacion = Column(Date, onupdate=func.now())
+    
+    def __repr__(self):
+        return f"<PersonaAtendida {self.nombres} {self.apellidos}>"
